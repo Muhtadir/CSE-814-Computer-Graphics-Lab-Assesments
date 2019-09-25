@@ -1,0 +1,85 @@
+<!--
+(c)2019 Md. Muhtadir Rahman All Rights Reserved
+Creation date : 22/09/2019
+Created By:
+Md. Muhtadir Rahman,
+Id : 16701046,
+Department of Computer Science & Engineering,
+University of Chittagong.
+--><!DOCTYPE html>
+<html>
+<title>1. Question-2.31 | 1671046</title>
+<body style:"text-align:center;">
+<p style="text-align:center;">Md. Muhtdir Rahman<br>Id: 16701046<br>Department of Computer Science & Engineering<br>University of Chittagong
+</p>
+<p style="text-align:center;">Question 2.31 : Develop a pseudo code segment to initialize a 24-bit 256 entry lookup table with gray-scale values.
+</p>
+
+<table border="1" align="center">
+	<tr>
+		<td>Entry No</td>
+		<td>Gray Scale values</td>
+		<td>Visible color</td>
+	</tr>
+	<script>
+	let entry = new Array(256);
+	let rgb = new Array(3);
+	
+	//Pseudo code segment implementation
+	for(let i=0;i<256;i++){
+		rgb[0] = rgb[1] = rgb[2] = i;
+		setEntry(i,rgb);		
+	}
+	
+	//Setting up lookup table entry
+	function setEntry(i,rgb){
+		//Making an entry
+		entry[i] = 	zero_padding_for_binary(convert_into_binary(rgb[0]))+convert_into_binary(rgb[0])+
+					zero_padding_for_binary(convert_into_binary(rgb[1]))+convert_into_binary(rgb[1])+
+					zero_padding_for_binary(convert_into_binary(rgb[2]))+convert_into_binary(rgb[2]);						
+		
+		//Showing the color
+		document.write("<tr>"+"<td>"+i+"</td>"+"<td>"+entry[i]+"</td>"+
+		"<td style='background: #"
+								+zero_padding_for_hexa(convert_into_hexa(rgb[0]))+convert_into_hexa(rgb[0])+
+								zero_padding_for_hexa(convert_into_hexa(rgb[1]))+convert_into_hexa(rgb[1])+
+								zero_padding_for_hexa(convert_into_hexa(rgb[2]))+convert_into_hexa(rgb[2])+
+								";'></td>");
+								
+		console.log(zero_padding_for_hexa(convert_into_hexa(rgb[0]))+convert_into_hexa(rgb[0])+
+								zero_padding_for_hexa(convert_into_hexa(rgb[1]))+convert_into_hexa(rgb[1])+
+								zero_padding_for_hexa(convert_into_hexa(rgb[2]))+convert_into_hexa(rgb[2]));
+	}
+	
+	//Integer to Binary conversion
+	function convert_into_binary(val){		
+		return val.toString(2);		
+	}
+	
+	//Zero padding for Binary value for making 8-bit
+	function zero_padding_for_binary(binary){
+		var bin = "";
+		for(let i = 0; i<(8-binary.length);i++){
+			bin = bin.concat("0");
+		}
+		return bin;
+	}
+	
+	//Integer to Hexa conversion
+	function convert_into_hexa(val) {
+        return val.toString(16);
+        
+    }
+	
+	//Zero padding for Hexa value for making 8-bit
+	function zero_padding_for_hexa(hexa){
+		var hex = "";
+		for(let i = 0; i<(2-hexa.length);i++){
+			hex = hex.concat("0");
+		}
+		return hex;
+	}	
+	</script>
+</table>
+</body>
+</html>

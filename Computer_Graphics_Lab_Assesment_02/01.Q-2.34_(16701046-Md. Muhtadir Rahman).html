@@ -1,0 +1,108 @@
+<!--
+(c)2019 Md. Muhtadir Rahman All Rights Reserved
+Creation date : 22/09/2019
+Created By:
+Md. Muhtadir Rahman,
+Id : 16701046,
+Department of Computer Science & Engineering,
+University of Chittagong.
+-->
+<!DOCTYPE html>
+<html>
+<title>1. Question-2.34 | 1671046</title>
+<body style:"text-align:center;">
+<p style="text-align:center;">Md. Muhtdir Rahman<br>Id: 16701046<br>Department of Computer Science & Engineering<br>University of Chittagong
+</p>
+<p style="text-align:center;">Question 2.34 : Develop a pseudo code segment to draw a triangular area with the three vertices at (x,y), (x,y+t), and (x+t,y) when integer t>= 0, using color rgb.
+</p>
+
+<form id="frm1" action="/action_page.php">
+X:<input type="number" name="x">
+Y:<input type="number" name="y">
+T:<input type="number" name="t"><br>
+R:<input type="number" name="r">
+G:<input type="number" name="g">
+B:<input type="number" name="b">
+<input type="button" onclick="myFunction()" value="Draw the triangle">
+</form>
+<p style="text-align:center;">
+<canvas id="myCanvas" width="1200" height="600" style="border:1px solid #d3d3d3;"></canvas>
+</p>
+<script>
+
+var canvas = document.getElementById("myCanvas");
+context = canvas.getContext("2d");
+
+function myFunction() {
+
+	context.clearRect(0, 0, canvas.width, canvas.height);
+	var val = document.getElementById("frm1");	
+	
+	//Creating x-axis
+	context.beginPath();
+	context.moveTo(0,canvas.height/2);
+	context.lineTo(canvas.width,canvas.height/2);
+	context.stroke();
+	
+	//Creating y-axis	
+	context.beginPath();
+	context.moveTo(canvas.width/2,0);
+	context.lineTo(canvas.height,canvas.width/2);
+	context.stroke();
+	
+	//Collecting inputs from the form
+	var x = Number(val.elements["x"].value);
+	var y = Number(val.elements["y"].value);	
+	var t = Number(val.elements["t"].value);
+	var r = Number(val.elements["r"].value);	
+	var g = Number(val.elements["g"].value);
+	var b = Number(val.elements["b"].value);	
+	
+	//Setting up the triangle color
+	context.fillStyle = '#' + convert_into_hexa_with_zero_padding(r)+
+							convert_into_hexa_with_zero_padding(g)+
+							convert_into_hexa_with_zero_padding(b)+'aa';
+
+
+	//Console printing
+	console.log(convert_into_hexa_with_zero_padding(r)+
+				convert_into_hexa_with_zero_padding(g)+
+				convert_into_hexa_with_zero_padding(b));
+							
+	//Pseudo code segment implementation						
+	for (let j = y; j < y + t; j++) {
+		for (let i = x; i < x + y + t - j; i++) {
+			context.fillRect(canvas.width / 2 + i, canvas.height / 2 - j-1, 1, 1); // setPixel(x,y);
+		}
+	}
+		
+	//Converting into Hexa with zero padding for making 2-bit
+	function convert_into_hexa_with_zero_padding(val) {
+		hexa = val.toString(16);
+		padding = "";
+		
+		for(let i = 0; i<(2-hexa.length);i++){
+			padding = padding.concat("0");
+		}
+        return padding+hexa;       
+    }
+}
+window.onload = function () {
+
+	//Creating x-axis
+	context.beginPath();
+	context.moveTo(0,canvas.height/2);
+	context.lineTo(canvas.width,canvas.height/2);
+	context.stroke();
+	
+	//Creating y-axis	
+	context.beginPath();
+	context.moveTo(canvas.width/2,0);
+	context.lineTo(canvas.height,canvas.width/2);
+	context.stroke();
+};
+
+</script>
+
+</body>
+</html>

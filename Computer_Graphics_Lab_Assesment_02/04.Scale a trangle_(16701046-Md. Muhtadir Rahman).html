@@ -1,0 +1,124 @@
+<!--
+(c)2019 Md. Muhtadir Rahman All Rights Reserved
+Creation date : 22/09/2019
+Created By:
+Md. Muhtadir Rahman,
+Id : 16701046,
+Department of Computer Science & Engineering,
+University of Chittagong.
+-->
+<!DOCTYPE html>
+<html>
+<title>Scaling a triangle | 1671046</title>
+<body>
+<p style="text-align:center;">Md. Muhtadir Rahman<br>Id : 16701046<br>Department of Computer Science & Engineering<br>University of Chittagong</p>
+<form id="frm1" action="/action_page.php">
+Scaling Factor : <input type="number" name="factor">
+<input type="button" onclick="myFunction()" value="Scale the triangle">
+</form>
+<canvas id="myCanvas" width="1200" height="600" style="border:1px solid #d3d3d3;"></canvas>
+
+<script>
+var canvas = document.getElementById("myCanvas");
+var val = document.getElementById("frm1");
+context = canvas.getContext("2d");
+let abc = [
+	[0, 1, 5],
+	[0, 1, 2],
+	[1, 1, 1]
+];
+let zoom_in = 50;
+
+function myFunction() {	
+	context.clearRect(0, 0, canvas.width, canvas.height);
+	
+	//Creating x-axis
+	context.beginPath();
+	context.moveTo(0,canvas.height/2);
+	context.lineTo(canvas.width,canvas.height/2);
+	context.stroke();
+	
+	//Creating y-axis	
+	context.beginPath();
+	context.moveTo(canvas.width/2,0);
+	context.lineTo(canvas.height,canvas.width/2);
+	context.stroke();
+	
+	//Drawing the input triangle
+	context.beginPath();
+	context.moveTo(canvas.width / 2 + abc[0][0] * zoom_in, canvas.height / 2 - abc[1][0] * zoom_in);
+	context.lineTo(canvas.width / 2 + abc[0][1] * zoom_in, canvas.height / 2 - abc[1][1] * zoom_in);
+	context.lineTo(canvas.width / 2 + abc[0][2] * zoom_in, canvas.height / 2 - abc[1][2] * zoom_in);
+	context.lineTo(canvas.width / 2 + abc[0][0] * zoom_in, canvas.height / 2 - abc[1][0] * zoom_in)
+	context.stroke();	
+	
+	//Collecting the input factor for scaling the triange.
+	var factor = Number(val.elements["factor"].value);
+	
+	//Calculating Scaled triangle, scaledABC
+	let scaledABC = makeScaled(abc, factor, [abc[0][2], abc[1][2]]);
+	
+	// Drawing the scaled triangle, scaledABC
+	context.beginPath();
+	context.moveTo(canvas.width / 2 + scaledABC[0][0] * zoom_in, canvas.height / 2 - scaledABC[1][0] * zoom_in);
+	context.lineTo(canvas.width / 2 + scaledABC[0][1] * zoom_in, canvas.height / 2 - scaledABC[1][1] * zoom_in);
+	context.lineTo(canvas.width / 2 + scaledABC[0][2] * zoom_in, canvas.height / 2 - scaledABC[1][2] * zoom_in);
+	context.fill();
+	context.stroke();
+
+}
+
+//Making triangle scaled.
+function makeScaled(t, factor, about) {
+	let Tv = [
+		[1, 0, about[0]],
+		[0, 1, about[1]],
+		[0, 0, 1],
+	];
+	let T_v = [
+		[1, 0, -about[0]],
+		[0, 1, -about[1]],
+		[0, 0, 1],
+	];
+	let S = [
+		[factor, 0, 0],
+		[0, factor, 0],
+		[0, 0, 1]
+	];
+	return do_matrixDot(do_matrixDot(Tv, do_matrixDot(S, T_v)), abc);
+}
+function do_matrixDot(A, B) {
+	let result = new Array(A.length).fill(0).map(row => new Array(B[0].length).fill(0));
+	return result.map((row, i) => {
+		return row.map((val, j) => {
+			return A[i].reduce((sum, elm, k) => sum + (elm * B[k][j]), 0)
+		});
+	});
+}
+
+//Preparing the graph paper at the initialization of the page.
+window.onload = function () {
+	//Creating x-axis
+	context.beginPath();
+	context.moveTo(0,canvas.height/2);
+	context.lineTo(canvas.width,canvas.height/2);
+	context.stroke();
+	
+	//Creating y-axis	
+	context.beginPath();
+	context.moveTo(canvas.width/2,0);
+	context.lineTo(canvas.height,canvas.width/2);
+	context.stroke();
+	
+	//Drawing the input triangle
+	context.beginPath();
+	context.moveTo(canvas.width / 2 + abc[0][0] * zoom_in, canvas.height / 2 - abc[1][0] * zoom_in);
+	context.lineTo(canvas.width / 2 + abc[0][1] * zoom_in, canvas.height / 2 - abc[1][1] * zoom_in);
+	context.lineTo(canvas.width / 2 + abc[0][2] * zoom_in, canvas.height / 2 - abc[1][2] * zoom_in);
+	context.lineTo(canvas.width / 2 + abc[0][0] * zoom_in, canvas.height / 2 - abc[1][0] * zoom_in)
+	context.stroke();
+};
+</script>
+
+</body>
+</html>

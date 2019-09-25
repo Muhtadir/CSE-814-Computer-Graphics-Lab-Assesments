@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>Assignment 01 | CSE 814</title>
+</head>
+
+<body style="text-align: center">
+<noscript>Please enable JavaScript.</noscript>
+<div style="overflow: hidden">
+    <p style="text-align:right;float: left;">
+        Time (X-axis length): 1 sec <br>
+        Amplitude (Y-axis): 256 <br>
+        Initial Phase (Angle°) <input type="number" id="angle"
+                                      oninput="this.value = Math.abs(Number(this.value)) % 360">
+        <br>
+        Frequency (Hz) <input type="number" id="freq" oninput="this.value = Math.abs(Number(this.value))">
+
+        <br>
+        <span style="color: #aa0">Tangent Amplitude Factor</span> <input type="number" id="scale-t"
+                                                                     oninput="this.value = Math.abs(Number(this.value))">
+        <br>
+        Sample Rate (s<sup>-1</sup>) <input type="number" id="sample-rate"
+                                            oninput="this.value = Math.abs(Number(this.value))">
+        <br>
+        Frame-Rate (fps) <input type="number" id="fps" oninput="this.value = Math.abs(Number(this.value))">
+        <br>
+        <button style="cursor: pointer;" onclick="randomize()">Randomize Values</button>
+        <button style="cursor: pointer;" onclick="start(0)">Run with these</button>
+    </p>
+    <div style="display: inline-block;">
+        <h3> Assignment 01 : CSE 814 (Computer Graphics Lab)</h3>
+        <canvas id="canvas" width="800" height="512">Your browser doesn't support HTML5 canvas.</canvas>
+        <p>
+            <br>
+            <strong>Md. Muhtadir Rahman</strong><br>
+            ID: <strong>16701046</strong><br>
+            Department of <em>Computer Science and Engineering</em><br>
+            <strong>University of Chittagong</strong>
+        </p>
+    </div>
+</div>
+</body>
+<script>
+    let lineSize, canvas, context, x, sy, cy, ty;
+    let handle, X = 800, Y = 256; // Possible points in the respective axis.
+    let fps, angle, freq, sample_rate, scale_s, scale_c, scale_t;
+
+    function createGraphPaper() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.strokeStyle = '#dddddd';
+        context.beginPath();
+        context.moveTo(lineSize / 2, lineSize / 2);
+        context.lineTo(lineSize / 2, canvas.height);
+        context.moveTo(0, canvas.height / 2);
+        context.lineTo(canvas.width, canvas.height / 2);
+        context.stroke();
+    }
+
+    function drawLine(x1, y1, x2, y2, color) {
+        context.strokeStyle = color;
+        context.beginPath();
+        context.moveTo(x1, canvas.height / 2 - y1);
+        context.lineTo(x2, canvas.height / 2 - y2);
+        context.stroke();
+    }
+
+    function drawCurves(x2) {
+        y = scale_t * Math.tan(angle);
+        drawLine(x, ty, x2, y, '#aaaa00');
+        ty = y;
+    }
+
+    function collectInputs() {
+        angle = Number(document.getElementById('angle').value) * Math.PI / 180;
+        freq = Number(document.getElementById('freq').value);
+        scale_t = Number(document.getElementById('scale-t').value);
+        sample_rate = Number(document.getElementById('sample-rate').value);
+        fps = Number(document.getElementById('fps').value);
+        ty = scale_t * Math.tan(angle);
+        x = 0;
+    }
+
+    function start(t) {
+        clearInterval(handle);
+        createGraphPaper();
+        collectInputs();
+        handle = setInterval(function () {
+            drawCurves(Math.min(t, canvas.width));
+            if (t >= canvas.width) {
+                clearInterval(handle);
+            }
+            x = t;
+            t += X / sample_rate;
+            angle += 2 * Math.PI * freq / sample_rate;
+        }, 1000 / fps);
+    }
+
+    function randomize() {
+        let f = document.getElementById('freq').value = randomFrom(1, 4, true);
+        document.getElementById('angle').value = randomFrom(1, 359, true);
+        document.getElementById('fps').value = randomFrom(70, 100, true);
+        document.getElementById('scale-t').value = randomFrom(Y / 10, Y / 2, true);
+        document.getElementById('sample-rate').value = randomFrom(2 * f, X, true);
+    }
+
+    window.onload = function () {
+        canvas = document.getElementById("canvas");
+        context = canvas.getContext("2d");
+        lineSize = 4;
+        // Set the line size.
+        context.lineWidth = lineSize;
+
+        randomize();
+        start(0);
+    };
+
+
+    function randomFrom(min, max, integer_value = false) {
+        return integer_value ? Math.trunc(Math.random() * (max - min) + min) : (Math.random() * (max - min) + min)
+            .toFixed(4);
+    }
+</script>
+</html>

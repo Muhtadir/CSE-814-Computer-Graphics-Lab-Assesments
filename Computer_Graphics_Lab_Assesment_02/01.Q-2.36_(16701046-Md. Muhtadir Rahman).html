@@ -1,0 +1,92 @@
+<!--
+(c)2019 Md. Muhtadir Rahman All Rights Reserved
+Creation date : 22/09/2019
+Created By:
+Md. Muhtadir Rahman,
+Id : 16701046,
+Department of Computer Science & Engineering,
+University of Chittagong.
+-->
+<!DOCTYPE html>
+<html>
+<title>1. Question-2.36 | 1671046</title>
+<body style:"text-align:center;">
+<p style="text-align:center;">Md. Muhtdir Rahman<br>Id: 16701046<br>Department of Computer Science & Engineering<br>University of Chittagong
+</p>
+<p style="text-align:center;">Question 2.36 : What if the image in Prob. 2.35 is in the 24-bit true color representation?.
+</p>
+<form id="frm1" action="/action_page.php">
+<p style="text-align:center;"><input type="button" onclick="makeComplement()" value="Get true color representation"></p>
+</form>
+<p style="text-align:center;">
+<canvas id="myCanvas" width="1200" height="1200" style="border:1px solid #d3d3d3;"></canvas>
+</p>
+<script>
+	var canvas = document.getElementById("myCanvas");
+	context = canvas.getContext("2d");
+	context.clearRect(0, 0, canvas.width, canvas.height);
+
+	let entry = new Array(256);
+	let rgb = new Array(256);
+	
+	for(let i = 0; i<256;i++){
+		rgb[i] = new Array(3);
+	}	
+	
+	//Randomly initializing the color values for R,G,B each	
+	for(let k=0;k<256;k++){			
+		rgb[k][0] = Math.trunc(Math.random() * 255);
+		rgb[k][1] = Math.trunc(Math.random() * 255);
+		rgb[k][2] = Math.trunc(Math.random() * 255);			
+	}
+	
+	//Initializing the 16x16 image(Total 256 pixels)
+	let k = 0;	
+	for(let i=0;i<16;i++){		
+		for(let j=0;j<16;j++){					
+			setPixel(i,j,rgb[k]); //Initialize a pixel
+			k+=1;
+		}
+	}	
+	
+	//Making complement for each pixel and showing the pixels
+	function makeComplement(){	
+		context.clearRect(0, 0, canvas.width, canvas.height);
+		k=0;
+		for(let i=0;i<256;i++){	
+			rgb[i][0] = 255 - rgb[i][0];
+			rgb[i][1] = 255 - rgb[i][1];
+			rgb[i][2] = 255 - rgb[i][2];			
+		}
+		for(let i=0;i<16;i++){		
+			for(let j=0;j<16;j++){					
+				setPixel(i,j,rgb[k]);
+				k+=1;
+			}
+		}
+	}
+
+	//Showing a pixel
+	function setPixel(i, j, rgb) {
+        context.fillStyle = '#' + convert_into_hexa_with_zero_padding(rgb[0])+
+							convert_into_hexa_with_zero_padding(rgb[1])+
+							convert_into_hexa_with_zero_padding(rgb[2])+'aa';
+		context.fillRect(i*(canvas.width/16), j*(canvas.height/16), canvas.width/16, canvas.height/16); // setPixel(x,y);
+    }
+	
+	
+	//Converting into Hexa with zero padding for making 2-bit
+	function convert_into_hexa_with_zero_padding(val) {
+		hexa = val.toString(16);
+		padding = "";
+		
+		for(let i = 0; i<(2-hexa.length);i++){
+			padding = padding.concat("0");
+		}
+        return padding+hexa;       
+    }
+	
+	</script>
+</table>
+</body>
+</html>

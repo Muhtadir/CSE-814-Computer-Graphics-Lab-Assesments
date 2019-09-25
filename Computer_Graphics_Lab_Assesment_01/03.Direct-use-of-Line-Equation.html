@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<body>
+<form id="frm1" action="/action_page.php">
+<input type="number" name="x1"> , <input type="number" name="y1">
+<input type="number" name="x2"> , <input type="number" name="y2">
+<input type="button" onclick="myFunction()" value="Submit">
+</form>
+<canvas id="myCanvas" width="1200" height="600" style="border:1px solid #d3d3d3;"></canvas>
+
+<script>
+
+function myFunction() {
+
+	var canvas = document.getElementById("myCanvas");
+	var val = document.getElementById("frm1");	
+	contextLine = canvas.getContext("2d");
+	contextLine.moveTo(0,canvas.height/2);
+	contextLine.lineTo(canvas.width,canvas.height/2);
+	contextLine.stroke();
+	contextLine.moveTo(canvas.width/2,0);
+	contextLine.lineTo(canvas.height,canvas.width/2);
+	contextLine.stroke();
+	var a = Number(val.elements["x1"].value);
+	var b = Number(val.elements["y1"].value);	
+	var c = Number(val.elements["x2"].value);
+	var d = Number(val.elements["y2"].value);	
+	var cc = 0;
+	
+	//Swapping the points
+	if(a>c){
+		var temp1 = a;
+		a = c;
+		c = temp1;
+		
+		var temp2 = b;
+		b = d;
+		d = temp2;
+	}
+	
+	var m = Number((Number(d)-Number(b))/(Number(c)-Number(a)));
+	
+	if(a==c){
+		//Swap y value
+		if (b>d){
+			var temp3 = b;
+			b = d;
+			d =temp3;
+		}
+		//Start plotting from lower y value
+		while(b<d){
+			var bb = Number(y(a,m,cc));
+			plotpoint(canvas,a+(canvas.width/2),bb+(canvas.height/2));
+			b++;
+		}		
+	}
+	
+	
+	while(a<c){		
+		
+		//console.log("a = "+a);
+		var bb = Number(y(a,m,cc));
+		
+		//console.log("bb = "+bb);
+		plotpoint(canvas,a+(canvas.width/2),bb+(canvas.height/2));
+		a++;
+	} 
+}
+function plotpoint(canvas,a,b){
+	contextRectangle = canvas.getContext("2d");
+    contextRectangle.rect(a,b,2,2);
+	contextRectangle.fillRect(a,b,2,2);
+	contextRectangle.stroke();
+	
+}
+function y(a,m,c){
+
+	//console.log(a,m,c);	
+	return a*m+c;	
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!--
+(c)2019 Md. Muhtadir Rahman All Rights Reserved
+Creation date : 22/09/2019
+Created By:
+Md. Muhtadir Rahman,
+Id : 16701046,
+Department of Computer Science & Engineering,
+University of Chittagong.
+-->
+
+<!DOCTYPE html>
+<html>
+<title>Translating a point | 1671046</title>
+<body>
+<p style="text-align:center;">Md. Muhtadir Rahman<br>Id : 16701046<br>Department of Computer Science & Engineering<br>University of Chittagong</p>
+<p style="text-align:center;">Question-02 : Translate a point p(x,y) to a point p1(x1,y1).
+</p>
+<form id="frm1" action="/action_page.php">
+X : <input type="number" name="x"> Y : <input type="number" name="y">
+tx : <input type="number" name="tx"> ty : <input type="number" name="ty">
+<input type="button" onclick="myFunction()" value="Translate the point">
+</form>
+<canvas id="myCanvas" width="1200" height="600" style="border:1px solid #d3d3d3;"></canvas>
+
+<script>
+var canvas = document.getElementById("myCanvas");
+var val = document.getElementById("frm1");
+context = canvas.getContext("2d");
+
+function myFunction() {	
+
+	//Erasing the canvas
+	context.clearRect(0, 0, canvas.width, canvas.height);
+	
+	//Creating graph paper	
+	//Creating x-axis
+	context.beginPath();
+	context.moveTo(0,canvas.height/2);
+	context.lineTo(canvas.width,canvas.height/2);
+	context.stroke();
+	
+	//Creating y-axis	
+	context.beginPath();
+	context.moveTo(canvas.width/2,0);
+	context.lineTo(canvas.height,canvas.width/2);
+	context.stroke();
+	
+	//Collecting ipputs
+	var a = Number(val.elements["x"].value);
+	var b = Number(val.elements["y"].value);
+	var tx = Number(val.elements["tx"].value);
+	var ty = Number(val.elements["ty"].value);	
+	
+	//Plotting the orginal point
+	plotpoint(canvas,canvas.width/2+a,canvas.height/2-b); 
+	
+	a = a + tx;
+	b = b + ty;
+	//Plotting the translated a point
+	plotpoint(canvas,canvas.width/2+a,canvas.height/2-b); 
+}
+
+//Function for plotting a point
+function plotpoint(canvas,a,b){
+	context.beginPath();
+    context.rect(a-3,b-3,6,6);
+	context.fillRect(a-3,b-3,6,6);
+	context.stroke();	
+}
+
+//Creating the graph paper at the initialization of the page
+window.onload = function () {
+
+	//Creating x-axis
+	context.beginPath();
+	context.moveTo(0,canvas.height/2);
+	context.lineTo(canvas.width,canvas.height/2);
+	context.stroke();
+	
+	//Creating y-axis	
+	context.beginPath();
+	context.moveTo(canvas.width/2,0);
+	context.lineTo(canvas.height,canvas.width/2);
+	context.stroke();
+};
+
+</script>
+
+</body>
+</html>

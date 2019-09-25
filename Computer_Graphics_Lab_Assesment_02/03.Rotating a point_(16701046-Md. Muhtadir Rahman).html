@@ -1,0 +1,89 @@
+<!--
+(c)2019 Md. Muhtadir Rahman All Rights Reserved
+Creation date : 22/09/2019
+Created By:
+Md. Muhtadir Rahman,
+Id : 16701046,
+Department of Computer Science & Engineering,
+University of Chittagong.
+-->
+<!DOCTYPE html>
+<html>
+<title>Rotating a point | 1671046</title>
+<body>
+<p style="text-align:right;">Md. Muhtadir Rahman<br>Id : 16701046<br>Department of Computer Science & Engineering<br>University of Chittagong</p>
+<form id="frm1" action="/action_page.php">
+X : <input type="number" name="x"> Y : <input type="number" name="y">  Angle : <input type="number" name="angle">
+<input type="button" onclick="myFunction()" value="Rotate the point">
+</form>
+<canvas id="myCanvas" width="1200" height="600" style="border:1px solid #d3d3d3;"></canvas>
+
+
+<script>
+var canvas = document.getElementById("myCanvas");
+var val = document.getElementById("frm1");
+context = canvas.getContext("2d");
+
+function myFunction() {
+
+	//Erasing the canvas
+	context.clearRect(0, 0, canvas.width, canvas.height);
+	
+	//Creating x-axis
+	context.beginPath();
+	context.moveTo(0,canvas.height/2);
+	context.lineTo(canvas.width,canvas.height/2);
+	context.stroke();
+	
+	//Creating y-axis	
+	context.beginPath();
+	context.moveTo(canvas.width/2,0);
+	context.lineTo(canvas.height,canvas.width/2);
+	context.stroke();
+	
+	//Collecting inputs
+	var a = Number(val.elements["x"].value);
+	var b = Number(val.elements["y"].value);	
+	var angle = Number(val.elements["angle"].value);
+	
+	//Plotting the orginal point
+	plotpoint(canvas,canvas.width/2+a,canvas.height/2-b);	
+	angle = -Math.PI * angle / 180;
+	console.log(angle);
+	
+	//Rotating the point according to the laws
+	var rx = Number(a * Math.cos(angle) + b * Math.sin(angle));
+	var ry = Number(-a * Math.sin(angle) + b * Math.cos(angle));
+	
+	//Plotting the rotated point
+	plotpoint(canvas,canvas.width/2+rx,canvas.height/2-ry); 
+	
+}
+function plotpoint(canvas,a,b){
+	context.beginPath();
+    context.rect(a-3,b-3,6,6);
+	context.fillRect(a-3,b-3,6,6);
+	context.stroke();	
+}
+window.onload = function () {
+
+	//Erasing the graph paper at the initializing of the page.
+	context.clearRect(0, 0, canvas.width, canvas.height);
+	
+	//Creating x-axis
+	context.beginPath();
+	context.moveTo(0,canvas.height/2);
+	context.lineTo(canvas.width,canvas.height/2);
+	context.stroke();
+	
+	//Creating y-axis	
+	context.beginPath();
+	context.moveTo(canvas.width/2,0);
+	context.lineTo(canvas.height,canvas.width/2);
+	context.stroke();	
+};
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!--
+(c)2019 Md. Muhtadir Rahman All Rights Reserved
+Creation date : 22/09/2019
+Created By:
+Md. Muhtadir Rahman,
+Id : 16701046,
+Department of Computer Science & Engineering,
+University of Chittagong.
+-->
+<!DOCTYPE html>
+<html>
+<title>1. Question-2.35 | 1671046</title>
+<body style:"text-align:center;">
+<p style="text-align:center;">Md. Muhtdir Rahman<br>Id: 16701046<br>Department of Computer Science & Engineering<br>University of Chittagong
+</p>
+<p style="text-align:center;">Question 2.35 : Develop a pseudo code segment to reset every pixel in an image that is 24-bit 256 entry lookup table representation to its complementary color.
+</p>
+<p style="text-align:center;"><input type="button" onclick="makeComplement()" value="Make complement"></p>
+
+<table border="1" align="center">
+	<tr>
+		<td>Entry No</td>
+		<td>24-bit value</td>
+		<td>Visible color</td>
+	</tr>
+	<script>
+
+	let entry = new Array(256);
+	let rgb = new Array(256);
+	for(let i = 0; i<256;i++){
+		rgb[i] = new Array(3);
+		document.write("<tr id='tr" + i + "'></tr>");
+	}
+	
+	//Randomly initializing the color values for R,G,B each
+	for(let i=0;i<256;i++){		
+		rgb[i][0] = Math.trunc(Math.random() * 255);
+		rgb[i][1] = Math.trunc(Math.random() * 255);
+		rgb[i][2] = Math.trunc(Math.random() * 255);
+		setEntry(i,rgb);		
+	}
+	
+	//Making complement of the color values for R,G,B each
+	function makeComplement(){	
+		for(let i=0;i<256;i++){	
+			rgb[i][0] = 255 - rgb[i][0];
+			rgb[i][1] = 255 - rgb[i][1];
+			rgb[i][2] = 255 - rgb[i][2];
+			setEntry(i,rgb);		
+		}	
+	}
+	
+	//Setting up lookup table entry
+	function setEntry(i,rgb){
+		//Making an entry
+		entry[i] = 	convert_into_binary_with_zero_padding(rgb[i][0])+
+					convert_into_binary_with_zero_padding(rgb[i][1])+
+					convert_into_binary_with_zero_padding(rgb[i][2]);			
+		
+		//Showing the color
+		document.getElementById('tr' + i).innerHTML = "<td>"+i+"</td>"+"<td>"+entry[i]+"</td>"+
+		"<td style='background: #"+convert_into_hexa_with_zero_padding(rgb[i][0])+
+									convert_into_hexa_with_zero_padding(rgb[i][1])+
+									convert_into_hexa_with_zero_padding(rgb[i][2])+
+								";'></td></tr>";
+
+	}
+	
+	//Converting into Binary with zero padding for making 8-bit
+	function convert_into_binary_with_zero_padding(val) {
+		bin = val.toString(2);
+		padding = "";
+		
+		for(let i = 0; i<(8-bin.length);i++){
+			padding = padding.concat("0");
+		}
+        return padding+bin;       
+    }
+	
+	//Converting into Hexa with zero padding for making 2-bit
+	function convert_into_hexa_with_zero_padding(val) {
+		hexa = val.toString(16);
+		padding = "";
+		
+		for(let i = 0; i<(2-hexa.length);i++){
+			padding = padding.concat("0");
+		}
+        return padding+hexa;       
+    }
+	
+	</script>
+</table>
+</body>
+</html>
