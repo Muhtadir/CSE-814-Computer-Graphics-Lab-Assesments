@@ -1,0 +1,89 @@
+<!--
+(c)2019 Md. Muhtadir Rahman All Rights Reserved
+Creation date : 12/10/2019
+Created By:
+Md. Muhtadir Rahman,
+Id : 16701046,
+Department of Computer Science & Engineering,
+University of Chittagong.
+-->
+
+<!DOCTYPE html>
+<html>
+<title>Task 02: Identify a point if inside or outside of a circle | 1671046</title>
+<body>
+<p style="text-align:center;">Md. Muhtadir Rahman<br>Id : 16701046<br>Department of Computer Science & Engineering<br>University of Chittagong</p>
+<p style="text-align:center;">Task: 02. Identify a point if inside or outside of a circle
+</p>
+<form id="frm1" action="/action_page.php">
+Center of the circle :  H : <input type="number" name="h"> K : <input type="number" name="k"><br>
+Position of the Point  :   X : <input type="number" name="x"> Y : <input type="number" name="y"><br>
+Circle radius : <input type="number" name="r"> 
+<input type="button" onclick="myFunction()" value="Identify the position">
+Position: <font color="red"><strong id="position">N/A</strong></font>
+</form>
+<canvas id="myCanvas" width="1200" height="600" style="border:1px solid #d3d3d3;"></canvas>
+
+<script>
+var canvas = document.getElementById("myCanvas");
+var val = document.getElementById("frm1");
+context = canvas.getContext("2d");
+contextBlue = canvas.getContext("2d");
+
+function myFunction() {	
+	context.clearRect(0, 0, canvas.width, canvas.height);	
+	//Creating x-axis
+	context.beginPath();
+	context.moveTo(0,canvas.height/2);
+	context.lineTo(canvas.width,canvas.height/2);
+	context.stroke();
+	
+	//Creating y-axis	
+	context.beginPath();
+	context.moveTo(canvas.width/2,0);
+	context.lineTo(canvas.height,canvas.width/2);
+	context.stroke();
+	
+	var a = Number(val.elements["x"].value);
+	var b = Number(val.elements["y"].value);
+	var h = Number(val.elements["h"].value);
+	var k = Number(val.elements["k"].value);	
+	var r = Number(val.elements["r"].value);
+
+	plotpoint(canvas,canvas.width/2+a,canvas.height/2-b); 
+	
+	contextBlue.beginPath();
+	contextBlue.strokeStyle = '#00aaaa';
+	contextBlue.arc(canvas.width / 2 + h, canvas.height / 2 -k, r, 0, 2 * Math.PI);
+	contextBlue.stroke();
+	
+	let position = Math.sign(Math.pow(a-h,2) + Math.pow(b-k,2)- r * r);
+	document.getElementById('position').innerText = position > 0 ? 'OUTSIDE' : (position < 0 ? 'INSIDE' : 'ON THE CIRCLE');
+
+}
+function plotpoint(canvas,a,b){
+	context.beginPath();
+    context.rect(a-2,b-2,4,4);
+	context.fillRect(a-2,b-2,4,4);
+	context.stroke();	
+}
+
+window.onload = function () {
+
+	//Creating x-axis
+	context.beginPath();
+	context.moveTo(0,canvas.height/2);
+	context.lineTo(canvas.width,canvas.height/2);
+	context.stroke();
+	
+	//Creating y-axis	
+	context.beginPath();
+	context.moveTo(canvas.width/2,0);
+	context.lineTo(canvas.height,canvas.width/2);
+	context.stroke();
+};
+
+</script>
+
+</body>
+</html>

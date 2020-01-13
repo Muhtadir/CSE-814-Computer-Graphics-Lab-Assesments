@@ -1,0 +1,131 @@
+<!--
+(c)2019 Md. Muhtadir Rahman All Rights Reserved
+Creation date : 22/09/2019
+Created By:
+Md. Muhtadir Rahman,
+Id : 16701046,
+Department of Computer Science & Engineering,
+University of Chittagong.
+-->
+
+<!DOCTYPE html>
+<html>
+<title>Task 03: Implement point clipping algorithm | 1671046</title>
+<body>
+<p style="text-align:center;">Md. Muhtadir Rahman<br>Id : 16701046<br>Department of Computer Science & Engineering<br>University of Chittagong</p>
+<p style="text-align:center;">Task: 03.Implement point clipping algorithm
+</p>
+<form id="frm1" action="/action_page.php">
+
+<input type="button" onclick="myFunction()" value="Generate rectangle and the points">
+<input type="button" onclick="clipPoints()" value="ClipThePoints">
+</form>
+<canvas id="myCanvas" width="1200" height="600" style="border:1px solid #d3d3d3;"></canvas>
+
+<script>
+var canvas = document.getElementById("myCanvas");
+var val = document.getElementById("frm1");
+context = canvas.getContext("2d");
+contextBlue = canvas.getContext("2d");
+var x,y,w=0,h=0,a,b;
+let array = new Array(1000);
+
+function myFunction() {	
+	
+	context.clearRect(0, 0, canvas.width, canvas.height);
+	contextBlue.clearRect(0, 0, canvas.width, canvas.height);	
+	
+	//Creating x-axis
+	context.beginPath();
+	context.moveTo(0,canvas.height/2);
+	context.lineTo(canvas.width,canvas.height/2);
+	context.stroke();
+	
+	//Creating y-axis	
+	context.beginPath();
+	context.moveTo(canvas.width/2,0);
+	context.lineTo(canvas.height,canvas.width/2);
+	context.stroke();
+	
+	x = Math.trunc(Math.random() * canvas.width/3 * (Math.round(Math.random()) * 2 - 1)) ;
+	y = Math.trunc(Math.random() * canvas.height/3 * (Math.round(Math.random()) * 2 - 1));
+	
+	while(w < 200){
+		w = Math.trunc(Math.random() * canvas.width/5);
+	}
+	while(h < 150){
+		h = Math.trunc(Math.random() * canvas.width/5);
+	}	
+		
+	contextBlue.beginPath();
+	contextBlue.strokeStyle = '#00aaaa';
+	contextBlue.rect(canvas.width/2 + x, canvas.height/2 + y,w,h);
+	contextBlue.stroke();
+
+	for(i=1;i<=1000;i++){
+	
+		array[i] = new Array(2);
+		
+		a = Math.trunc(Math.random() * canvas.width/2 * (Math.round(Math.random()) * 2 - 1));
+		b = Math.trunc(Math.random() * canvas.height/2 * (Math.round(Math.random()) * 2 - 1));
+		array[i][1] = a;
+		array[i][2] = b;
+		
+		plotpoint(canvas,canvas.width/2+a,canvas.height/2+b); 
+
+	}
+
+}
+function clipPoints(){
+	
+	context.clearRect(0, 0, canvas.width, canvas.height);	
+	
+	//Creating x-axis
+	context.beginPath();
+	context.moveTo(0,canvas.height/2);
+	context.lineTo(canvas.width,canvas.height/2);
+	context.stroke();
+	
+	//Creating y-axis	
+	context.beginPath();
+	context.moveTo(canvas.width/2,0);
+	context.lineTo(canvas.height,canvas.width/2);
+	context.stroke();
+	
+	contextBlue.beginPath();
+	contextBlue.rect(canvas.width/2 + x, canvas.height/2 + y,w,h);
+	contextBlue.stroke();
+	
+	for(i=1;i<=1000;i++){
+		if( array[i][1] < x  || array[i][1] > x + w || array[i][2] < y || array[i][2] > y + h){	
+			continue;
+		}
+		plotpoint(canvas,canvas.width/2+array[i][1],canvas.height/2+array[i][2]); 
+	}
+}
+function plotpoint(canvas,a,b){
+
+	context.beginPath();
+    context.rect(a-1,b-1,2,2);
+	context.fillRect(a-1,b-1,2,2);
+	context.stroke();	
+}
+
+window.onload = function () {
+	//Creating x-axis
+	context.beginPath();
+	context.moveTo(0,canvas.height/2);
+	context.lineTo(canvas.width,canvas.height/2);
+	context.stroke();
+	
+	//Creating y-axis	
+	context.beginPath();
+	context.moveTo(canvas.width/2,0);
+	context.lineTo(canvas.height,canvas.width/2);
+	context.stroke();
+};
+
+</script>
+
+</body>
+</html>

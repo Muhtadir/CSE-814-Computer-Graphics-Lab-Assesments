@@ -1,0 +1,101 @@
+<!--
+(c)2019 Md. Muhtadir Rahman All Rights Reserved
+Creation date : 12/10/2019
+Created By:
+Md. Muhtadir Rahman,
+Id : 16701046,
+Department of Computer Science & Engineering,
+University of Chittagong.
+-->
+
+<!DOCTYPE html>
+<html>
+<title>Task 01: Identify whether a point liest | 1671046</title>
+<body>
+<p style="text-align:center;">Md. Muhtadir Rahman<br>Id : 16701046<br>Department of Computer Science & Engineering<br>University of Chittagong</p>
+<p style="text-align:center;">Task: 01. Identify whether a point lies <strong>left</strong> or <strong>right</strong> to a line.<br>
+</p>
+<form id="frm1" action="/action_page.php">
+Initial Point of the Line :  X1 : <input type="number" name="x1"> Y1 : <input type="number" name="y1"><br>
+Final Point of the Line   :  X2 : <input type="number" name="x2"> Y2 : <input type="number" name="y2"><br>
+Point for the test        :  X  : <input type="number" name="x">   Y : <input type="number" name="y"><br>
+<input type="button" onclick="myFunction()" value="Check the side of the point">
+Position: <font color="red"><strong id="position">N/A</strong></font>
+</form>
+<canvas id="myCanvas" width="1200" height="600" style="border:1px solid #d3d3d3;"></canvas>
+
+<script>
+var canvas = document.getElementById("myCanvas");
+var val = document.getElementById("frm1");
+context = canvas.getContext("2d");
+contextBlue = canvas.getContext("2d");
+
+function myFunction() {	
+
+	let arrow = 15,px,py;
+	context.clearRect(0, 0, canvas.width, canvas.height);
+	contextBlue.clearRect(0, 0, canvas.width, canvas.height);
+	
+	//Creating x-axis
+	context.beginPath();
+	context.moveTo(0,canvas.height/2);
+	context.lineTo(canvas.width,canvas.height/2);
+	context.stroke();
+	
+	//Creating y-axis	
+	context.beginPath();
+	context.moveTo(canvas.width/2,0);
+	context.lineTo(canvas.height,canvas.width/2);
+	context.stroke();
+	
+	var a = Number(val.elements["x"].value);
+	var b = Number(val.elements["y"].value);
+	var x1 = Number(val.elements["x1"].value);
+	var y1 = Number(val.elements["y1"].value);	
+	var x2 = Number(val.elements["x2"].value);
+	var y2 = Number(val.elements["y2"].value);
+	
+
+	plotpoint(canvas,canvas.width/2+a,canvas.height/2-b); 
+	
+	//Draw the line with arrow
+	contextBlue.beginPath();
+	contextBlue.strokeStyle = '#38e024';
+	contextBlue.moveTo(canvas.width / 2 + x1, canvas.height / 2 - y1);
+	contextBlue.lineTo(canvas.width / 2 + x2, canvas.height / 2 - y2);	
+	let angle = Math.atan2(y2 - y1, x2 - x1);	
+	contextBlue.lineTo(canvas.width / 2 + x2 - arrow * Math.cos(angle - Math.PI / 6), canvas.height / 2 - y2 + arrow * Math.sin(angle - Math.PI / 6));
+	contextBlue.moveTo(canvas.width / 2 + x2, canvas.height / 2 - y2);
+	contextBlue.lineTo(canvas.width / 2 + x2 - arrow * Math.cos(angle + Math.PI / 6), canvas.height / 2 - y2 + arrow * Math.sin(angle + Math.PI / 6));
+	contextBlue.stroke();
+	
+	let position = Math.sign((x2 - x1) * (b - y1) - (y2 - y1) * (a - x1));
+	document.getElementById('position').innerText = position > 0 ? 'LEFT' : (position < 0 ? 'RIGHT' : 'ON THE LINE');
+
+
+}
+function plotpoint(canvas,a,b){
+	context.beginPath();
+    context.rect(a-2,b-2,4,4);
+	context.fillRect(a-2,b-2,4,4);
+	context.stroke();	
+}
+
+window.onload = function () {
+	//Creating x-axis
+	context.beginPath();
+	context.moveTo(0,canvas.height/2);
+	context.lineTo(canvas.width,canvas.height/2);
+	context.stroke();
+	
+	//Creating y-axis	
+	context.beginPath();
+	context.moveTo(canvas.width/2,0);
+	context.lineTo(canvas.height,canvas.width/2);
+	context.stroke();
+};
+
+</script>
+
+</body>
+</html>
